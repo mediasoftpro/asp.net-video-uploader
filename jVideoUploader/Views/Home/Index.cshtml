@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "jVideoUploader - ASP.NET Core";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Video Uploader &amp; Transcoder for ASP.NET Core</h2>
+        <hr />
+        @{
+            // upload settings
+            var uploadsettingsModelView = new Jugnoon.Entity.UploaderSettingsModelView()
+            {
+                maxFileSize = "100mb",
+                extensions = "mp4,avi,wmv,flv,mpeg,mpg",
+                handlerpath = "/api/uploader/upload",
+                maxallowedfiles = 3
+            };
+            // list of supported encoding options
+            // please adjust the list with your requirements
+            var encodingTemplates = Jugnoon.Entity.EncodingSettings.returnEncodingTemplates();
+        }
+        <partial name="~/Views/Home/uploader/UploaderComponent.cshtml" />
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var plupload_settings = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(uploadsettingsModelView));
+        var templates = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(encodingTemplates));
+    </script>
+    <script src="~/js/plupload/js/plupload.full.min.js"></script>
+    <script src="~/js/vuploader.js"></script>
+}
+
